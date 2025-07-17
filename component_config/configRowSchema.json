@@ -1,0 +1,53 @@
+{
+  "type": "object",
+  "title": "Tripleseat Endpoints & Sync Options",
+  "required": ["endpoints", "sync_options"],
+  "properties": {
+    "endpoints": {
+      "type": "object",
+      "title": "Endpoints",
+      "options": {
+        "section": "Endpoints",
+        "collapsed": false
+      },
+      "propertyOrder": 1,
+      "properties": {
+        "bookings": {
+          "type": "boolean",
+          "title": "Bookings",
+          "format": "checkbox",
+          "propertyOrder": 1
+        }
+      }
+    },
+    "sync_options": {
+      "type": "object",
+      "title": "Synchronization Options",
+      "propertyOrder": 2,
+      "required": ["sync_mode", "date_from", "date_to"],
+      "properties": {
+        "sync_mode": {
+          "type": "string",
+          "title": "Sync Mode",
+          "enum": ["full_sync", "incremental_sync"],
+          "default": "full_sync",
+          "propertyOrder": 1
+        },
+        "date_from": {
+          "type": "string",
+          "title": "Date From",
+          "default": "1 month ago",
+          "description": "Start date for sync. Accepts '5 days ago', '1 month ago', 'yesterday', or 'last run'.",
+          "propertyOrder": 2
+        },
+        "date_to": {
+          "type": "string",
+          "title": "Date To",
+          "default": "now",
+          "description": "End date for sync. Usually set to 'now'.",
+          "propertyOrder": 3
+        }
+      }
+    }
+  }
+}
