@@ -21,6 +21,7 @@ class Authorization(BaseModel):
 
 class Endpoints(BaseModel):
     bookings: bool = Field(default=False, description="Export bookings")
+    leads: bool = Field(default=False, description="Export leads")
 
     @property
     def as_dict(self) -> Dict[str, bool]:

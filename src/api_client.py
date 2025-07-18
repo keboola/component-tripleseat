@@ -74,3 +74,41 @@ class APIClient:
             page += 1
             if page > total_pages:
                 break
+
+    def get_leads(self) -> Generator[Dict[str, Any], None, None]:
+        """
+        Streams leads using pagination and created_after date filtering.
+        Each lead is yielded as-is.
+        """
+        created_after = self.config.sync_options.resolved_date_from(self.state).strftime("%m/%d/%Y")
+        created_before = (
+            self.config.sync_options.resolved_date_to().strftime("%m/%d/%Y")
+            if self.config.sync_options.date_to
+            else None
+        )
+
+        headers = {"Authorization": f"Bearer {self.access_token}"}
+        page = 1
+
+        while True:
+            params = {"page": page, "created_after": created_after}
+
+            url = f"{API_BASE_URL}/v1/leads.json"
+            logging.debug(f"Fetching leads page={page}, created_after={created_after}, created_before={created_before}")
+            response = requests.get(url, headers=headers, params=params)
+            response.raise_for_status()
+
+            data = response.json()
+            results = data.get("results", [])
+            total_pages = data.get("total_pages", 0)
+
+            if not results:
+                logging.info(f"No more results on page {page}. Stopping.")
+                break
+
+            for record in results:
+                yield record
+
+            page += 1
+            if total_pages and page > total_pages:
+                break

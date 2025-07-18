@@ -5,7 +5,7 @@ from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
 from configuration import Configuration
 from api_client import APIClient
-from utils import write_bookings_tables
+from utils import write_bookings_tables, write_leads_tables
 
 
 class Component(ComponentBase):
@@ -24,6 +24,10 @@ class Component(ComponentBase):
         if config.endpoints.bookings:
             logging.info("Fetching bookings data...")
             write_bookings_tables(self, api_client.get_bookings())
+
+        if config.endpoints.leads:
+            logging.info("Fetching leads data...")
+            write_leads_tables(self, api_client.get_leads())
 
         new_state["last_successful_run"] = run_time_str
         self.write_state_file(new_state)

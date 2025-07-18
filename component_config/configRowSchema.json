@@ -17,6 +17,12 @@
           "title": "Bookings",
           "format": "checkbox",
           "propertyOrder": 1
+        },
+        "leads": {
+          "type": "boolean",
+          "title": "Leads",
+          "format": "checkbox",
+          "propertyOrder": 2
         }
       }
     },
